@@ -6,7 +6,6 @@ export function handleError(type: number, entity: string) {
         message: `${entity}`
     };
 }
-
 export default async function errorHandler(
     error: any,
     req: Request,

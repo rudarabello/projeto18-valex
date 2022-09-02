@@ -8,12 +8,10 @@ declare module 'http' {
 }
 
 
-export async function createCard(req:Request,res:Response) {
+export async function createCard(req: Request, res: Response) {
     const apiKey = req.headers['x-api-key'];
-    const id:number = Number(req.params.id);
+    const id: number = Number(req.params.id);
     const { type } = req.body;
-
-    await CardService.createCard(apiKey,id,type);
-
+    await CardService.createCard(apiKey, id, type);
     return res.sendStatus(201);
 }

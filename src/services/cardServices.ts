@@ -7,9 +7,11 @@ import { encrypt } from "../utils/passwordUtils";
 import { cardName, generateDate } from "../utils/cardUtils";
 
 
-export async function createCard(apiKey: any,
+export async function createCard(
+    apiKey: any,
     employeeId: number,
-    type: cardMethods.TransactionTypes) {
+    type: cardMethods.TransactionTypes
+) {
 
     const checkApiKey = await findByApiKey(apiKey);
     if (!checkApiKey) throw handleError(404, "Invalid API Key!");
@@ -18,7 +20,7 @@ export async function createCard(apiKey: any,
     if (!checkEmployee) throw handleError(404, "Employee not registered!");
 
     const checkCards = await cardMethods.findByTypeAndEmployeeId(type, employeeId);
-    if (checkCards) throw handleError(409, `The employee already have a ${type} card type`)
+    if (checkCards) throw handleError(409, `The employee already have a ${type} card type`);
 
     const cardholderName: string = cardName(checkEmployee.fullName)
     const number: string = faker.finance.creditCardNumber('####-####-####-###L');
@@ -38,5 +40,6 @@ export async function createCard(apiKey: any,
         type,
     };
 
-    await cardMethods.insert(cardData)
+    const createCard = await cardMethods.insert(cardData);
+    //if (!createCard) throw handleError(500, 'Error on creation of card');
 }
