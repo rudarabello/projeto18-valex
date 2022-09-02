@@ -16,4 +16,4 @@ app.use(cardErrorHandler);
 
 const PORT:number = Number(process.env.PORT) || 5000;
 
-app.listen(PORT, () => console.log("Server online!"));
+app.listen(PORT, () => console.log(`Server runnig on port ${PORT}`));
