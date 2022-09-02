@@ -1,0 +1,1 @@
+##This is my first Typescript project. A server for a benefit card system. Uses cryptr, dayjs, dotenv, express, express-async-errors, faker, joi, pg and Node.##
