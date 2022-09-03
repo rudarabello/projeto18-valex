@@ -36,7 +36,7 @@ CREATE TABLE "businesses"(
 
 CREATE TABLE "payments"(
     "id" SERIAL NOT NULL PRIMARY KEY,
-    "cardId" INTEGER NOT NULL REFERENCES cards(id),
+    "cardNumber" TEXT NOT NULL REFERENCES cards(number),
     "businessId" INTEGER NOT NULL REFERENCES businesses(id),
     "timestamp" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
     "amount" INTEGER NOT NULL
@@ -44,7 +44,7 @@ CREATE TABLE "payments"(
 
 CREATE TABLE "recharges"(
     "id" SERIAL NOT NULL PRIMARY KEY,
-    "cardId" INTEGER NOT NULL REFERENCES cards(id),
+    "cardNumber" TEXT NOT NULL REFERENCES cards(number),
     "timestamp" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
     "amount" INTEGER NOT NULL
 );

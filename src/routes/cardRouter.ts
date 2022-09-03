@@ -10,8 +10,11 @@ cardRouter.post('/create-card/:id',
     cardControllers.createCard
 );
 cardRouter.put('/activate',
-validateSchema(cardSchemas.activateValidation),
-cardControllers.activateCard
+    validateSchema(cardSchemas.activateValidation),
+    cardControllers.activateCard
+);
+cardRouter.get('/transactions',
+    cardControllers.getTransactions
 );
 
 export default cardRouter;

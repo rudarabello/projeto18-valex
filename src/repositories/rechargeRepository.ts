@@ -1,4 +1,4 @@
-import { connection } from "../database.js";
+import { connection } from "../../database/database";
 
 export interface Recharge {
   id: number;
@@ -11,6 +11,14 @@ export type RechargeInsertData = Omit<Recharge, "id" | "timestamp">;
 export async function findByCardId(cardId: number) {
   const result = await connection.query<Recharge, [number]>(
     `SELECT * FROM recharges WHERE "cardId"=$1`,
+    [cardId]
+  );
+
+  return result.rows;
+}
+export async function findByCardNumber(cardId: string) {
+  const result = await connection.query<Recharge, [string]>(
+    `SELECT * FROM recharges WHERE "cardNumber"=$1`,
     [cardId]
   );
 

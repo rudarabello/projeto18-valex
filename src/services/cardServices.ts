@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { findByApiKey } from "../repositories/companyRepository";
-import * as employeeMethods from "../repositories/employeeRepository"
+import * as employeeMethods from "../repositories/employeeRepository";
+import * as paymentMethods from "../repositories/paymentRepository";
+import * as rechargeMethods from "../repositories/rechargeRepository";
 import { handleError } from "../middlewares/cardErrorHandler";
 import * as cardMethods from "../repositories/cardRepository";
 import { encrypt, decrypt } from "../utils/passwordUtils";
@@ -20,7 +22,7 @@ export async function createCard(
     const checkCards = await cardMethods.findByTypeAndEmployeeId(type, employeeId);
     if (checkCards) throw handleError(409, `The employee already have a ${type} card type`);
     const cardholderName: string = cardName(checkEmployee.fullName)
-    const number: string = faker.finance.creditCardNumber('####-####-####-###L');
+    const number: string = faker.finance.creditCardNumber('###############L');
     const expirationDate = generateDate();
     const CVC: string = faker.finance.creditCardCVV();
     const securityCode = encrypt(CVC);
@@ -54,4 +56,34 @@ export async function activateCard(
     if (card.password) throw handleError(409, "This card is active!");
     const encryptedPass = encrypt(password)
     await cardMethods.update(number, encryptedPass);
+}
+export async function getTransactions(cardNumber: string) {
+    const recharges = await rechargeMethods.findByCardNumber(cardNumber);
+    if (recharges.length === 0) {
+        return {
+            balance: 0,
+            recharges: "No recharges were made!"
+        }
+    }
+    let balance = 0;
+    recharges.forEach((element: { amount: number; }) => {
+        balance += element.amount;
+    });
+    const payments = await paymentMethods.findByCardNumber(cardNumber);
+    if (payments.length === 0) {
+        return {
+            balance,
+            recharges: recharges,
+            transactions: "No payments were made!"
+        }
+    }
+    payments.forEach((element: { amount: number; }) => {
+        balance -= element.amount;
+    });
+    const result = {
+        balance,
+        recharges: recharges,
+        transactions: payments
+    };
+    return result;
 }

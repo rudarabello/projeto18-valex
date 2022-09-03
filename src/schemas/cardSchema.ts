@@ -12,7 +12,7 @@ export const typeCardValidation = joi.object({
 })
 
 export const activateValidation = joi.object({
-    number: joi.string().min(19).max(19).required(),
+    number: joi.string().min(16).max(16).required(),
     cvc: joi.string().min(3).max(3).required(),
     password: joi.string().min(4).max(4).required()
 });

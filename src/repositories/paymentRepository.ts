@@ -1,4 +1,4 @@
-import { connection } from "../database.js";
+import { connection } from "../../database/database";
 
 export interface Payment {
   id: number;
@@ -15,11 +15,25 @@ export async function findByCardId(cardId: number) {
     `SELECT 
       payments.*,
       businesses.name as "businessName"
-     FROM payments 
+    FROM payments 
       JOIN businesses ON businesses.id=payments."businessId"
-     WHERE "cardId"=$1
+    WHERE "cardId"=$1
     `,
     [cardId]
+  );
+
+  return result.rows;
+}
+export async function findByCardNumber(cardNumber: string) {
+  const result = await connection.query<PaymentWithBusinessName, [string]>(
+    `SELECT 
+      payments.*,
+      businesses.name as "businessName"
+    FROM payments 
+      JOIN businesses ON businesses.id=payments."businessId"
+    WHERE "cardNumber"=$1
+    `,
+    [cardNumber]
   );
 
   return result.rows;
