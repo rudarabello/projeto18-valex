@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { string } from "joi";
 import * as CardService from "../services/cardServices";
 
 declare module 'http' {
@@ -12,6 +13,11 @@ export async function createCard(req: Request, res: Response) {
     const apiKey = req.headers['x-api-key'];
     const id: number = Number(req.params.id);
     const { type } = req.body;
-    await CardService.createCard(apiKey, id, type);
-    return res.sendStatus(201);
+    const infoFromCard = await CardService.createCard(apiKey, id, type);
+    return res.status(201).send({infoFromCard});
+}
+export async function activateCard(req:Request,res:Response){
+    const { number,cvc,password } : { number:string, cvc:string, password:string } = req.body;
+    await CardService.activateCard(number,cvc,password);
+    return res.status(201).send({message:"Card activate"});
 }

@@ -1,5 +1,5 @@
 import { connection } from "../../database/database";
-import { mapObjectToUpdateQuery } from "../utils/sqlUtils";
+import { handleError } from "../middlewares/cardErrorHandler";
 
 export type TransactionTypes =
   | "groceries"
@@ -38,7 +38,14 @@ export async function findById(id: number) {
 
   return result.rows[0];
 }
+export async function findByNumber(number: string) {
+  const result = await connection.query<Card, [string]>(
+    "SELECT * FROM cards WHERE number=$1",
+    [number]
+  );
 
+  return result.rows[0];
+}
 export async function findByTypeAndEmployeeId(
   type: TransactionTypes,
   employeeId: number
@@ -50,7 +57,6 @@ export async function findByTypeAndEmployeeId(
 
   return result.rows[0];
 }
-
 export async function findByCardDetails(
   number: string,
   cardholderName: string,
@@ -66,7 +72,6 @@ export async function findByCardDetails(
 
   return result.rows[0];
 }
-
 export async function insert(cardData: CardInsertData) {
   const {
     employeeId,
@@ -81,7 +86,7 @@ export async function insert(cardData: CardInsertData) {
     type,
   } = cardData;
 
-  connection.query(
+  const result = await connection.query(
     `
     INSERT INTO cards ("employeeId", number, "cardholderName", "securityCode",
       "expirationDate", password, "isVirtual", "originalCardId", "isBlocked", type)
@@ -100,25 +105,18 @@ export async function insert(cardData: CardInsertData) {
       type,
     ]
   );
+  if (!result) throw handleError(500, 'Error on creation of card');
 }
-
-export async function update(id: number, cardData: CardUpdateData) {
-  const { objectColumns: cardColumns, objectValues: cardValues } =
-    mapObjectToUpdateQuery({
-      object: cardData,
-      offset: 2,
-    });
-
+export async function update(number: string, password: string) {
   connection.query(
     `
     UPDATE cards
-      SET ${cardColumns}
-    WHERE $1=id
+      SET password = $2, "isBlocked" = false
+    WHERE $1=number
   `,
-    [id, ...cardValues]
+    [number, password]
   );
 }
-
 export async function remove(id: number) {
   connection.query<any, [number]>("DELETE FROM cards WHERE id=$1", [id]);
 }

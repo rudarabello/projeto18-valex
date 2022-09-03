@@ -1,42 +1,24 @@
 import joi from "joi";
 
-
 export const typeCardValidation = joi.object({
     type: joi.string()
         .valid(
             'groceries',
-            'restaurants',
+            'restaurant',
             'transport',
             'education',
             'health')
         .required()
 })
 
+export const activateValidation = joi.object({
+    number: joi.string().min(19).max(19).required(),
+    cvc: joi.string().min(3).max(3).required(),
+    password: joi.string().min(4).max(4).required()
+});
 
 
 
-
-
-
-
-
-// const cardValidation = (code: number) => {
-//     return async function cardValidation(req: Request, res: Response, next: NextFunction) {
-//         if (code === 1) {
-//             const cardSchema = joi.object({
-//                 type: joi.string()
-//                     .valid('groceries', 'restaurants', 'transport', 'education', 'health')
-//                     .required()
-//             });
-
-//             const { error } = cardSchema.validate(req.body);
-
-//             if (error) return res.status(422)
-//                 .send(error.details.map(
-//                     detail => detail.message));
-
-//             next();
-//         }
 
 //         if (code === 2) {
 //             const cardSchema = joi.object({
