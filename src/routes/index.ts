@@ -1,7 +1,7 @@
 import { Router } from "express";
 import cardRouter from "./cardRouter";
-import rechargeRouter from "./rechargeRouter";
 import purchaseRouter from "./purchaseRouter";
+import rechargeRouter from "./rechargeRouter";
 
 const router = Router();
 

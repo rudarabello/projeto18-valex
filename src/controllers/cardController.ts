@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { string } from "joi";
 import * as CardService from "../services/cardServices";
 
 declare module 'http' {
@@ -14,25 +13,25 @@ export async function createCard(req: Request, res: Response) {
     const id: number = Number(req.params.id);
     const { type } = req.body;
     const infoFromCard = await CardService.createCard(apiKey, id, type);
-    return res.status(201).send({infoFromCard});
+    return res.status(201).send({ infoFromCard });
 }
-export async function activateCard(req:Request,res:Response){
-    const { number,cvc,password } : { number:string, cvc:string, password:string } = req.body;
-    await CardService.activateCard(number,cvc,password);
-    return res.status(201).send({message:"Card activate"});
+export async function activateCard(req: Request, res: Response) {
+    const { number, cvc, password }: { number: string, cvc: string, password: string } = req.body;
+    await CardService.activateCard(number, cvc, password);
+    return res.status(201).send({ message: "Card activate" });
 }
-export async function getTransactions(req:Request, res:Response){
-    const { cardNumber } : { cardNumber:string } = req.body;
+export async function getTransactions(req: Request, res: Response) {
+    const { cardNumber }: { cardNumber: string } = req.body;
     const result = await CardService.getTransactions(cardNumber);
     return res.status(200).send(result);
 }
-export async function blockCard(req:Request, res:Response) {
-    const { number,password } : { number:string, password:string } = req.body;
-    await CardService.blockCard(number,password);
-    return res.status(200).send({message: "Card blocked!"});
+export async function blockCard(req: Request, res: Response) {
+    const { number, password }: { number: string, password: string } = req.body;
+    await CardService.blockCard(number, password);
+    return res.status(200).send({ message: "Card blocked!" });
 }
-export async function unBlockCard(req:Request, res:Response) {
-    const { number,password } : { number:string, password:string } = req.body;
-    await CardService.unBlockCard(number,password);
-    return res.status(200).send({message: "Card was unblocked!"});
+export async function unBlockCard(req: Request, res: Response) {
+    const { number, password }: { number: string, password: string } = req.body;
+    await CardService.unBlockCard(number, password);
+    return res.status(200).send({ message: "Card was unblocked!" });
 }

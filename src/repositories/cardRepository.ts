@@ -125,7 +125,7 @@ export async function blockCard(number: string) {
     UPDATE cards
       SET "isBlocked" = true
       WHERE number = $1
-  `,[number]
+  `, [number]
   );
 }
 export async function unBlockCard(number: string) {
@@ -134,6 +134,6 @@ export async function unBlockCard(number: string) {
     UPDATE cards
       SET "isBlocked" = false
       WHERE number = $1
-  `,[number]
+  `, [number]
   );
 }
