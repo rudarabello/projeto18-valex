@@ -94,3 +94,12 @@ export async function blockCard(number: string, password: string) {
     if (expiredCard(card.expirationDate)) throw handleError(401, "This card has expired!");
     await cardMethods.blockCard(number);
 }
+export async function unBlockCard(number: string, password: string) {
+    const card = await cardMethods.findByNumber(number);
+    if (!card) throw handleError(404, "Card not registered!");
+    if (card.password === '') throw handleError(401, "Card wasn't activated!");
+    if (password !== decrypt(card.password)) throw handleError(401, "Wrong password!");
+    if (!card.isBlocked) throw handleError(409, "Card is already active!");
+    if (expiredCard(card.expirationDate)) throw handleError(401, "This card has expired!");
+    await cardMethods.unBlockCard(number);
+}

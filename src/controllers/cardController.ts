@@ -31,3 +31,8 @@ export async function blockCard(req:Request, res:Response) {
     await CardService.blockCard(number,password);
     return res.status(200).send({message: "Card blocked!"});
 }
+export async function unBlockCard(req:Request, res:Response) {
+    const { number,password } : { number:string, password:string } = req.body;
+    await CardService.unBlockCard(number,password);
+    return res.status(200).send({message: "Card was unblocked!"});
+}

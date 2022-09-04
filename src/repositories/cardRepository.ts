@@ -129,3 +129,12 @@ export async function blockCard(number: string) {
   `,[number]
   );
 }
+export async function unBlockCard(number: string) {
+  connection.query(
+    `
+    UPDATE cards
+      SET "isBlocked" = false
+      WHERE number = $1
+  `,[number]
+  );
+}

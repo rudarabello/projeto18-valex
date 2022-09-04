@@ -20,5 +20,9 @@ cardRouter.put('/block', validateSchema(
     cardSchemas.blockValidation),
     cardControllers.blockCard
 );
+cardRouter.put('/unblock', validateSchema(
+    cardSchemas.blockValidation),
+    cardControllers.unBlockCard
+);
 
 export default cardRouter;
