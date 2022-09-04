@@ -120,3 +120,12 @@ export async function update(number: string, password: string) {
 export async function remove(id: number) {
   connection.query<any, [number]>("DELETE FROM cards WHERE id=$1", [id]);
 }
+export async function blockCard(number: string) {
+  connection.query(
+    `
+    UPDATE cards
+      SET "isBlocked" = true
+      WHERE number = $1
+  `,[number]
+  );
+}

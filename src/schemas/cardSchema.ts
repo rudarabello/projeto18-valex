@@ -17,48 +17,7 @@ export const activateValidation = joi.object({
     password: joi.string().min(4).max(4).required()
 });
 
-
-
-
-//         if (code === 2) {
-//             const cardSchema = joi.object({
-//                 id: joi.number().min(1).required(),
-//                 cvc: joi.string().min(3).max(3).required(),
-//                 password: joi.string().min(4).max(4).required()
-//             });
-
-//             const { error } = cardSchema.validate(req.body, { abortEarly: false });
-
-//             if (error) return res.status(422).send(error.details.map(detail => detail.message));
-
-//             next();
-//         }
-
-//         if (code === 3) {
-//             const cardSchema = joi.object({
-//                 id: joi.number().min(1).required(),
-//                 password: joi.array().min(1).required()
-//             });
-
-//             const { error } = cardSchema.validate(req.body, { abortEarly: false });
-
-//             if (error) return res.status(422).send(error.details.map(detail => detail.message));
-
-//             next();
-//         }
-
-//         if (code === 4) {
-//             const cardSchema = joi.object({
-//                 password: joi.string().min(4).max(4).required()
-//             });
-
-//             const { error } = cardSchema.validate(req.body);
-
-//             if (error) return res.status(422).send(error.details.map(detail => detail.message));
-
-//             next();
-//         }
-//     }
-// }
-
-// export default cardValidation;
+export const blockValidation = joi.object({
+    number: joi.string().min(16).max(16).required(),
+    password: joi.string().min(4).max(4).required()
+});

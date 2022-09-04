@@ -16,5 +16,9 @@ cardRouter.put('/activate',
 cardRouter.get('/transactions',
     cardControllers.getTransactions
 );
+cardRouter.put('/block', validateSchema(
+    cardSchemas.blockValidation),
+    cardControllers.blockCard
+);
 
 export default cardRouter;

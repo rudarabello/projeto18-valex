@@ -26,3 +26,8 @@ export async function getTransactions(req:Request, res:Response){
     const result = await CardService.getTransactions(cardNumber);
     return res.status(200).send(result);
 }
+export async function blockCard(req:Request, res:Response) {
+    const { number,password } : { number:string, password:string } = req.body;
+    await CardService.blockCard(number,password);
+    return res.status(200).send({message: "Card blocked!"});
+}

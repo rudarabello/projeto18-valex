@@ -7,7 +7,6 @@ import { handleError } from "../middlewares/cardErrorHandler";
 import * as cardMethods from "../repositories/cardRepository";
 import { encrypt, decrypt } from "../utils/passwordUtils";
 import { cardName, generateDate, expiredCard, verifyPass } from "../utils/cardUtils";
-import { string } from 'joi';
 
 
 export async function createCard(
@@ -45,7 +44,6 @@ export async function createCard(
     return infoFromCard;
 
 }
-
 export async function activateCard(
     number: string, cvc: string, password: string
 ) {
@@ -86,4 +84,13 @@ export async function getTransactions(cardNumber: string) {
         transactions: payments
     };
     return result;
+}
+export async function blockCard(number: string, password: string) {
+    const card = await cardMethods.findByNumber(number);
+    if (!card) throw handleError(404, "Card not registered!");
+    if (card.password === '') throw handleError(401, "Card wasn't activated!");
+    if (password !== decrypt(card.password)) throw handleError(401, "Wrong password!");
+    if (card.isBlocked) throw handleError(409, "Card already blocked!");
+    if (expiredCard(card.expirationDate)) throw handleError(401, "This card has expired!");
+    await cardMethods.blockCard(number);
 }
