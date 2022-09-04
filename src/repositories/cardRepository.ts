@@ -29,7 +29,6 @@ export async function find() {
   const result = await connection.query<Card>("SELECT * FROM cards");
   return result.rows;
 }
-
 export async function findById(id: number) {
   const result = await connection.query<Card, [number]>(
     "SELECT * FROM cards WHERE id=$1",
@@ -38,10 +37,10 @@ export async function findById(id: number) {
 
   return result.rows[0];
 }
-export async function findByNumber(number: string) {
-  const result = await connection.query<Card, [string]>(
+export async function findByNumber(cardNumber: any) {
+  const result = await connection.query(
     "SELECT * FROM cards WHERE number=$1",
-    [number]
+    [cardNumber]
   );
 
   return result.rows[0];

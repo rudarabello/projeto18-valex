@@ -6,7 +6,7 @@ import * as rechargeMethods from "../repositories/rechargeRepository";
 import { handleError } from "../middlewares/cardErrorHandler";
 import * as cardMethods from "../repositories/cardRepository";
 import { encrypt, decrypt } from "../utils/passwordUtils";
-import { cardName, generateDate, expiredCard, verifyPass } from "../utils/cardUtils";
+import { cardName, generateDate, expiredCard } from "../utils/cardUtils";
 
 
 export async function createCard(

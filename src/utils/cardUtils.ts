@@ -32,8 +32,3 @@ export function expiredCard(date: string) {
     if (months > cardMonths && years === cardYears) return true;
     return false;
 }
-
-export function verifyPass(password: any) {
-    const reg = new RegExp('^[0-9]{4}$')
-    return reg.test(password);
-}

@@ -39,11 +39,9 @@ export async function findByCardNumber(cardNumber: string) {
   return result.rows;
 }
 
-export async function insert(paymentData: PaymentInsertData) {
-  const { cardId, businessId, amount } = paymentData;
-
-  connection.query<any, [number, number, number]>(
-    `INSERT INTO payments ("cardId", "businessId", amount) VALUES ($1, $2, $3)`,
-    [cardId, businessId, amount]
+export async function insert(cardNumber: string, posId: number, amount: number) {
+  connection.query<any, [string, number, number]>(
+    `INSERT INTO payments ("cardNumber", "businessId", amount) VALUES ($1, $2, $3)`,
+    [cardNumber, posId, amount]
   );
 }
