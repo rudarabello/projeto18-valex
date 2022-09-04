@@ -2,11 +2,10 @@ import { connection } from "../../database/database";
 
 export interface Recharge {
   id: number;
-  cardId: number;
+  cardNumber: string;
   timestamp: Date;
   amount: number;
 }
-export type RechargeInsertData = Omit<Recharge, "id" | "timestamp">;
 
 export async function findByCardId(cardId: number) {
   const result = await connection.query<Recharge, [number]>(
@@ -24,12 +23,9 @@ export async function findByCardNumber(cardId: string) {
 
   return result.rows;
 }
-
-export async function insert(rechargeData: RechargeInsertData) {
-  const { cardId, amount } = rechargeData;
-
-  connection.query<any, [number, number]>(
-    `INSERT INTO recharges ("cardId", amount) VALUES ($1, $2)`,
-    [cardId, amount]
+export async function insert(cardNumber: string, amount: number) {
+  connection.query<any, [string, number]>(
+    `INSERT INTO recharges ("cardNumber", amount) VALUES ($1, $2)`,
+    [cardNumber, amount]
   );
 }
