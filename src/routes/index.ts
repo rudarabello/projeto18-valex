@@ -8,6 +8,6 @@ const router = Router();
 router.use(cardRouter);
 router.use(rechargeRouter);
 router.use(purchaseRouter);
-router.use("/", (req: Request, res: Response) => res.send('ok'))
+//router.use("/", (req: Request, res: Response) => res.send('ok'))
 
 export default router;
