@@ -25,6 +25,13 @@ Valex simulates an API that manages a benefit card, generally available by compa
 -   Recharge a card
 -   Make card payments
 
+## To run on deploy
+
+* Use the same instructions on [Using the API](#using-the-api) but replacing `localhost:5000` by:
+
+```http
+https://back-projeto-valex.herokuapp.com/
+```
 ## To run Locally
 
 * 1 - Open terminal and clone the project
